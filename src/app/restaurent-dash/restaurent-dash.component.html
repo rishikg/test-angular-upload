@@ -1,0 +1,191 @@
+<!-- <p>restaurent-dash works!</p> -->
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h2>Restaurant Record App</h2>
+        <div>
+            <button type="button" class="btn btn-success" (click)="clearRestaurentValues()" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Restaurant
+              </button>
+        </div>
+    </div>
+</nav>
+
+
+<div class="mt-2 p-1 bg-light rounded-2">
+    <div class="container-fluid py-5">
+    <h1 class="display-5 fw-bold">Restaurant Table Reservation Management System</h1>
+    <a  target="_blank" href="https://www.linkedin.com/in/rishi-kumar-gupta/">
+       developed by Rishi Kumar Gupta
+    </a>
+    </div>
+</div>
+
+<!-- Table shown Here -->
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th scope="col"> Restaurent Id </th>
+            <th scope="col"> Name </th>
+            <th scope="col"> Email </th>
+            <th scope="col"> Mobile </th>
+            <th scope="col"> Address </th>
+            <th scope="col"> Services </th>
+            <th scope="col"> Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of restaurents">
+            <td>{{data.id}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.email}}</td>
+            <td>{{data.mobile}}</td>
+            <td>{{data.address}}</td>
+            <td>{{data.services}}</td>
+            <td>
+              <button type="button" class="btn btn-primary" (click)="clearFormValues(data.id)" data-bs-toggle="modal" data-bs-target="#reservingTable">
+                Reserve Table
+              </button> &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="getReservations(data.id)" data-bs-toggle="modal" data-bs-target="#showReservations">
+                View Reservations
+              </button> &nbsp;
+                <button class="btn btn-danger" (click)="deleteRestaurent(data.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Restaurent</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form  >
+                <div class="mb-3">
+                    <label  class="form-label">Restaurent Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="name" name="name" id="restaurentName" placeholder="Restaurent Name">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Email address</label>
+                  <input type="email" class="form-control" [(ngModel)]="email" name ="email" id="exampleInputEmail1" placeholder="Email">
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Contact Number</label>
+                    <input type="text" class="form-control" [(ngModel)]="mobile" name="mobile" id="contactNumber" placeholder="Contact Number">
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Address</label>
+                    <input type="text" class="form-control"  [(ngModel)]="address" name="address" id="address" placeholder="Address">
+                </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">Services</label>
+                    <input type="text" class="form-control" [(ngModel)]="services" name="services" id="services" placeholder="services like dine in, take away, buffet">
+                </div>
+              </form> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addRestaurent()">Add Details</button>
+        </div>
+      </div>
+    </div>
+  
+  
+  </div>
+
+
+    <!-- Modal for reserving a table-->
+     <div class="modal fade" id="reservingTable" tabindex="-1" aria-labelledby="reservingTableLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="reservingTableLabel">Reserve Table</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form>
+                  <div class="mb-3">
+                      <label  class="form-label">Guest Name</label>
+                      <input type="text" class="form-control" [(ngModel)]="guestName" name = "guestName" id="guestName" placeholder="Guest Name">
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label">Guest Email address</label>
+                    <input type="email" class="form-control" [(ngModel)]="guestEmail" name = "guestEmail" id="guestEmail" placeholder="Guest Email">
+                  </div>
+                  <div class="mb-3">
+                      <label  class="form-label">Guest Contact Number</label>
+                      <input type="text" class="form-control" [(ngModel)]="guestMobile" name = "guestMobile" id="guestMobile" placeholder="Guest Contact Number">
+                  </div>
+                  <div class="mb-3">
+                      <label  class="form-label">Guest Address</label>
+                      <input type="text" class="form-control" [(ngModel)]="guestAddress" name = "guestAddress" id="guestAddress" placeholder="Guest Address">
+                  </div>
+  
+                  <div class="mb-3">
+                      <label  class="form-label">Nof Persons</label>
+                      <input type="text" class="form-control" [(ngModel)]="nofPersons"  name = "nofPersons" id="nofPersons" placeholder="Total Nof persons including guest">
+                  </div>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="reserveTable()">Reserve Table</button>
+          </div>
+        </div>
+      </div>
+    
+    
+    </div> 
+
+
+    <!-- Modal for list of reservations for a restaurant -->
+
+    <div class="modal fade" id="showReservations" tabindex="-1" aria-labelledby="showReservationsLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="showReservationsLabel">Restaurant Reservations</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" >
+            <table class="table mt-4">
+              <thead>
+                  <tr>
+                      <th scope="col">Guest Name </th>
+                      <th scope="col">Guest Email </th>
+                      <th scope="col">Guest Address </th>
+                      <th scope="col">Guest Mobile </th>
+                      <th scope="col"> Nof Persons </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let data of reservations">
+                      <td>{{data.guestName}}</td>
+                      <td>{{data.guestEmail}}</td>
+                      <td>{{data.guestAddress}}</td>
+                      <td>{{data.guestMobile}}</td>
+                      <td>{{data.nofPersons}}</td>
+                      
+                  </tr>
+              </tbody>
+          </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    
+    
+    </div> 
